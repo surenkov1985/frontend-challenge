@@ -1,39 +1,101 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFavoriteCat, setCatsData, setFavoriteCats, setFirstRender } from "../../stores/dataReducer";
+import { useInView } from "react-intersection-observer";
+import { CatCard } from "../CatCard";
 
 export const AllCats = () => {
-	const [catsData, setCatsData] = useState([]);
+	const dispatch = useDispatch();
+
+	const { catsData, favoriteCats, firstRender } = useSelector((state) => state.data);
+	const [isLoad, setIsLoad] = useState(false);
+	const [page, setPage] = useState(0);
+	const [moreText, setMoreText] = useState("");
+	let limit = 20;
+	const apiKey = "live_wgTVl4q73CIJTgweqoNx741qVwh7OXb3haDqoKRm8y1Bw2oi3YREmLHTxZaCVj9X";
+
+	const { ref, inView } = useInView({
+		rootMargin: "200px 0px 0px",
+	});
+
+	function setLikesCatsCard(arr, likesArr) {
+		let data = [];
+		if (likesArr.length) {
+			likesArr.forEach((element) => {
+				console.log(element);
+				data = arr.map((item) => {
+					if (item.id === element.id) {
+						return { ...item, like: true };
+					} else if (item.id !== element.id) {
+						return { ...item, like: false };
+					}
+				});
+			});
+		} else {
+			data = arr.map((item) => {
+				return { ...item, like: false };
+			});
+		}
+
+		return data;
+	}
+
+	useEffect(() => {
+		if (!catsData.length) {
+			getData();
+		}
+	}, []);
+
+	useEffect(() => {
+		if (inView && firstRender) {
+			getData();
+		}
+	}, [inView]);
+
+	useEffect(() => {
+		localStorage.setItem("favoriteCats", JSON.stringify(favoriteCats));
+	}, [favoriteCats]);
 
 	function getData() {
-		fetch(
-			"https://api.thecatapi.com/v1/images/search?limit=15&page=0&api_key=live_wgTVl4q73CIJTgweqoNx741qVwh7OXb3haDqoKRm8y1Bw2oi3YREmLHTxZaCVj9X"
-		)
+		setIsLoad(true);
+		fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${page}page&api_key=${apiKey}`)
 			.then((res) => {
 				return res.json();
 			})
 			.then((data) => {
-				setCatsData(data);
+				dispatch(setCatsData(setLikesCatsCard(data, favoriteCats)));
+				setPage(page + 1);
+				setIsLoad(false);
+				dispatch(setFirstRender());
+				setMoreText("ещё ");
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsLoad(false);
 			});
 	}
 
-	console.log(catsData);
+	const likeCatHandler = (e, cat) => {
+		if (e.target.checked) {
+			if (!favoriteCats.find((item) => item.id === cat.id)) {
+				dispatch(setFavoriteCats(cat));
+			}
+		}
+		if (!e.target.checked) {
+			dispatch(deleteFavoriteCat(cat));
+		}
+	};
 
-	useEffect(() => {
-		getData();
-	}, []);
 	return (
-		<div className="container content__container">
-			{catsData.map((cat) => {
-				return (
-					<div className="content__img">
-						<div className="content__img-container" key={cat.id}>
-							<img src={cat.url} alt={cat.id} />
-						</div>
-					</div>
-				);
-			})}
-		</div>
+		<>
+			<div className="container content__container">
+				{catsData.map((cat) => {
+					return <CatCard obj={cat} changeHandler={likeCatHandler} />;
+				})}
+				<div ref={ref} />
+			</div>
+
+			{isLoad && <div className="content__onload container">... загружаем {moreText}котиков ...</div>}
+		</>
 	);
 };

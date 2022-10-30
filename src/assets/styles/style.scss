@@ -48,7 +48,6 @@ body {
         &.active {
             background: #1E88E5;
         }
-
     }
 }
 
@@ -56,17 +55,20 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     flex-grow: 1;
 
     &__container {
         padding: 50px 62px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         grid-gap: 47px;
+        position: relative;
     }
 
     &__img {
+        max-width: 445px;
         position: relative;
         display: flex;
         align-items: center;
@@ -92,7 +94,37 @@ body {
         &:hover {
             width: 110%;
             height: 110%;
-            box-shadow: 0px 6px 8px 1px rgba(34, 60, 80, 0.5);
+            box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
+
+            & .content__img-gradient {
+                width: 100%;
+                height: 36.5%;
+                position: absolute;
+                bottom: 0;
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 58.85%);
+
+                & .content__like-icon {
+                    visibility: visible;
+
+                    & path {
+                        fill: none;
+                    }
+
+                    &:hover {
+
+                        & path {
+                            fill: #F24E1E;
+                        }
+                    }
+
+                    &.active {
+
+                        & path {
+                            fill: #F24E1E;
+                        }
+                    }
+                }
+            }
         }
 
         &>img {
@@ -100,11 +132,64 @@ body {
             height: 100%;
             object-fit: cover;
         }
+    }
+
+    &__img-gradient {
+        width: 100%;
+        height: 36.5%;
+        position: absolute;
+        bottom: 0;
+
+
+
+        &:hover {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 58.85%);
+        }
+    }
+
+    &__label {
+        position: absolute;
+        right: 15px;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & .content__like-icon {
+            position: absolute;
+            visibility: hidden;
+            stroke: #F24E1E;
+            stroke-width: 5px;
+            fill: none;
+            cursor: pointer;
+
+            &:hover {
+
+                & path {
+                    fill: #F24E1E;
+                }
+            }
+        }
+
+        &>.content__check:checked+.content__like-icon path {
+            fill: #F24E1E;
+        }
+
+
 
     }
 
-    // &__img {
-    //     width: 100%;
-    //     object-fit: cover;
-    // }
+    &__check {
+        position: absolute;
+        opacity: 0;
+    }
+
+    &__onload {
+        width: 100%;
+        text-align: center;
+        margin-top: -50px;
+        padding: 0 62px 30px;
+    }
 }
