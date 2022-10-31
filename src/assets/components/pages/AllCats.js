@@ -98,7 +98,7 @@ export const AllCats = () => {
 				<div ref={ref} />
 			</div>
 
-			{isLoad && <div className="content__onload container">... загружаем {moreText}котиков ...</div>}
+			<div className="content__onload">... загружаем {moreText}котиков ...</div>
 			{error && <div className="content__error">{error}</div>}
 		</>
 	);

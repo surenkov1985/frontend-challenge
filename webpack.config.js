@@ -1,4 +1,3 @@
-require("@babel/polyfill");
 const path = require("path");
 const ES6Promise = require("es6-promise");
 ES6Promise.polyfill();
@@ -90,13 +89,13 @@ const build = {
 			},
 			{
 				test: /\.js$/,
-				exclude: /node_modules/,
+				exclude: /node-modules/,
 				use: {
 					loader: "babel-loader",
 					options: {
-						cacheDirectory: false,
-						// presets: ["@babel/preset-env"],
-						// plugins: ["@babel/plugin-proposal-object-rest-spread"],
+						cacheDirectory: true,
+						presets: ["@babel/preset-env"],
+						plugins: ["@babel/plugin-proposal-object-rest-spread"],
 					},
 				},
 			},
