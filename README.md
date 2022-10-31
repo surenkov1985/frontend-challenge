@@ -33,6 +33,8 @@
 
 
 [Демо](https://mich-man.ru/projects/frontend-challenge/)
+
+
 [GitHub Pages](https://surenkov1985.github.io/frontend-challenge/dist/index.html)
 
 ## В процессе выполнения использовались:
