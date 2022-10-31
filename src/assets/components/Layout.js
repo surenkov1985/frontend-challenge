@@ -20,9 +20,7 @@ export const Layout = () => {
 					</NavLink>
 				</div>
 			</header>
-			<main
-				className="content"
-			>
+			<main className="content">
 				<Outlet />
 			</main>
 		</>

@@ -11,6 +11,7 @@ export const AllCats = () => {
 	const [isLoad, setIsLoad] = useState(false);
 	const [page, setPage] = useState(0);
 	const [moreText, setMoreText] = useState("");
+	const [error, setError] = useState("");
 	let limit = 20;
 	const apiKey = "live_wgTVl4q73CIJTgweqoNx741qVwh7OXb3haDqoKRm8y1Bw2oi3YREmLHTxZaCVj9X";
 
@@ -22,7 +23,6 @@ export const AllCats = () => {
 		let data = [];
 		if (likesArr.length) {
 			likesArr.forEach((element) => {
-				console.log(element);
 				data = arr.map((item) => {
 					if (item.id === element.id) {
 						return { ...item, like: true };
@@ -70,7 +70,10 @@ export const AllCats = () => {
 				setMoreText("ещё ");
 			})
 			.catch((err) => {
-				console.log(err);
+				setError("Сервер не отвечает");
+				setTimeout(() => {
+					setError("");
+				}, 1500);
 				setIsLoad(false);
 			});
 	}
@@ -90,12 +93,13 @@ export const AllCats = () => {
 		<>
 			<div className="container content__container">
 				{catsData.map((cat) => {
-					return <CatCard obj={cat} changeHandler={likeCatHandler} />;
+					return <CatCard obj={cat} key={cat.id} changeHandler={likeCatHandler} />;
 				})}
 				<div ref={ref} />
 			</div>
 
 			{isLoad && <div className="content__onload container">... загружаем {moreText}котиков ...</div>}
+			{error && <div className="content__error">{error}</div>}
 		</>
 	);
 };

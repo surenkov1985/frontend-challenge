@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const dataSlice = createSlice({
 	initialState: {
 		catsData: [],
-		favoriteCats: JSON.parse(localStorage.getItem("favoriteCats")),
+		favoriteCats: JSON.parse(localStorage.getItem("favoriteCats")) || [],
         firstRender: false
 	},
 	name: "data",
