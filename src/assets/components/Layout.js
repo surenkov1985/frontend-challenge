@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export const Layout = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
+	console.log(location);
 	useEffect(() => {
-		navigate("all");
+		navigate("" + location.pathname === "/" ? "all" : location.pathname.replace("/", ""));
 	}, []);
 
 	return (

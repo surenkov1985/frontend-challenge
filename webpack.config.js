@@ -30,7 +30,7 @@ const build = {
 		maxEntrypointSize: 512000,
 		maxAssetSize: 512000,
 	},
-	entry: ["@babel/polyfill", "whatwg-fetch", "./index.js"],
+	entry: ["@babel/polyfill","./index.js"],
 	resolve: {
 		alias: {
 			"": path.resolve(__dirname, "src/"),
@@ -74,28 +74,12 @@ const build = {
 				],
 			},
 			{
-				test: /\.(jpg|png|svg|jpeg|gif)$/i,
-				type: "asset/resource",
-				generator: {
-					filename: "assets/img/[name][ext]",
-				},
-			},
-			{
-				test: /\.(woff|woff2|eot|ttf|otf)$/i,
-				type: "asset/resource",
-				generator: {
-					filename: "assets/fonts/[name][ext]",
-				},
-			},
-			{
 				test: /\.js$/,
 				exclude: /node-modules/,
 				use: {
 					loader: "babel-loader",
 					options: {
 						cacheDirectory: true,
-						presets: ["@babel/preset-env"],
-						plugins: ["@babel/plugin-proposal-object-rest-spread"],
 					},
 				},
 			},
@@ -122,6 +106,9 @@ const dev = {
 				errors: true,
 			},
 		},
+	},
+	optimization: {
+		minimize: false,
 	},
 };
 

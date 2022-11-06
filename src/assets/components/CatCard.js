@@ -5,7 +5,7 @@ export const CatCard = (props) => {
 	const { obj, changeHandler } = props;
 
 	return (
-		<div className="content__img" key={obj.url}>
+		<div className="content__img">
 			<div className="content__img-container">
 				<img src={obj.url} alt={obj.id} />
 				<div className="content__img-gradient">
@@ -14,6 +14,7 @@ export const CatCard = (props) => {
 							className="content__check"
 							type="checkbox"
 							defaultChecked={obj.like}
+							checked={obj.like}
 							onChange={(e) => {
 								changeHandler(e, obj);
 							}}

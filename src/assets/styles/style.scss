@@ -34,7 +34,6 @@ body {
     padding: 0 62px;
     display: flex;
 
-
     @media (max-width: 500px) {
         padding: 0 30px;
     }
@@ -42,6 +41,7 @@ body {
 
 .header {
     width: 100%;
+    min-height: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
